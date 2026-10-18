@@ -1,0 +1,19 @@
+name: Test draft
+on: workflow_dispatch
+permissions:
+  contents: write
+jobs:
+  t:
+    runs-on: ubuntu-24.04
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v5
+      - id: game
+        run: |
+          .github/scripts/draft.sh fetch "$RUNNER_TEMP/game"
+          find "$RUNNER_TEMP/game" -type f
+      - run: |
+          echo hello > Glue5-test.txt
+          .github/scripts/draft.sh get "${{ steps.game.outputs.release }}" Glue5-test.txt; ls -la
+          .github/scripts/draft.sh upload "${{ steps.game.outputs.release }}" Glue5-*
