@@ -5,7 +5,7 @@ name: Release guard
 
 on:
   release:
-    types: [published, created, edited, prereleased, released]
+    types: [published, edited]
 
 permissions:
   contents: write
@@ -21,4 +21,4 @@ jobs:
       - name: Back to draft
         env:
           GH_TOKEN: ${{ github.token }}
-        run: .github/scripts/draft.sh guard "${{ github.event.release.id }}"
+        run: .github/scripts/draft.sh guard "${{ github.event.release.id }}" # ${{ github.event.action }}
